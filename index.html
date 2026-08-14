@@ -11,17 +11,23 @@
 <style>
   /* Homepage-only refinements — scoped to this page via its own <style> tag.
      assets/css/style.css (the shared stylesheet) is intentionally left untouched. */
-  .hero { padding: 34px 20px 42px; }
-  .hero-poster { width: 340px; margin: 0 auto 16px; }
-  .hero .dates { margin: 0 0 14px; font-size: 1rem; }
-  .countdown-wrap { margin-top: 22px; }
+  .hero { padding: 14px 20px 30px; }
+  .hero-poster { width: 320px; margin: 0 auto 6px; }
+  .hero-eyebrow { margin-bottom: 2px; line-height: 1.3; }
+  .hero h1 { font-size: clamp(1.6rem, 4.2vw, 2.3rem); line-height: 1.15; margin-bottom: 4px; }
+  .hero .dates { margin: 0 0 6px; font-size: 1rem; line-height: 1.2; }
+  .hero p.tagline { margin-bottom: 0; line-height: 1.35; }
+  .countdown-wrap { margin-top: 4px; }
+  .countdown .unit { padding: 10px 10px; }
+  .countdown .unit .num { line-height: 1.1; }
+  .countdown .unit .label { line-height: 1.3; }
 
   .hero-cta-group {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 14px;
-    margin-top: 18px;
+    margin-top: 22px;
   }
   .btn-hero {
     display: inline-block;
@@ -311,19 +317,19 @@ pbJXb86rrTGCvpUqUUgFSivsowQO5rhUgbipUo2Yo0Sk7DeucoDtUqU1sFE5fpUqVK1s1H//2Q==" al
     <span class="dates">🗓️ 14 – 20 September 2026</span>
     <p class="tagline">Join our society for a joyous celebration of Lord Ganesha — devotion, community and festivity together.</p>
 
-    <div class="hero-cta-group">
-      <a class="btn-hero btn-hero-primary" href="schedule.html">🗓️ View Schedule</a>
-      <a class="btn-hero btn-hero-secondary" href="contributions.html">💰 Contribute</a>
-    </div>
-
     <div class="countdown-wrap">
-      <p id="countdown-label" style="margin-bottom:14px; font-weight:600; color:#FFF3DE;">Counting down to Ganesh Chaturthi</p>
+      <p id="countdown-label" style="margin-bottom:4px; font-weight:600; color:#FFF3DE; line-height:1.3;">Counting down to Ganesh Chaturthi</p>
       <div class="countdown" id="countdown">
         <div class="unit" data-unit="days"><div class="num">--</div><div class="label">Days</div></div>
         <div class="unit" data-unit="hours"><div class="num">--</div><div class="label">Hours</div></div>
         <div class="unit" data-unit="minutes"><div class="num">--</div><div class="label">Minutes</div></div>
         <div class="unit" data-unit="seconds"><div class="num">--</div><div class="label">Seconds</div></div>
       </div>
+    </div>
+
+    <div class="hero-cta-group">
+      <a class="btn-hero btn-hero-primary" href="schedule.html">🗓️ View Schedule</a>
+      <a class="btn-hero btn-hero-secondary" href="contributions.html">💰 Contribute</a>
     </div>
   </div>
 </section>
