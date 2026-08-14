@@ -162,7 +162,7 @@ function renderSchedule(root, grouped) {
     const head = document.createElement("div");
     head.className = "day-head";
     head.innerHTML = `
-      <span class="day-name">🪣 ${escapeHtml(capitalize(dayGroup.day))}</span>
+      <span class="day-name">🪔 ${escapeHtml(capitalize(dayGroup.day))}</span>
       <span class="day-date">${escapeHtml(dayGroup.date || "")}</span>
     `;
     card.appendChild(head);
