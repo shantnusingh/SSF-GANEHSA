@@ -9,7 +9,8 @@
      A: (blank)        B: Sr. No.        C: Flat Number
      D: Resident Name  E: Mobile Number  F: 56 Bhog Item Name
      G: Category        H: Quantity       I: Remarks
-   Data rows start after the first 4 rows (title/summary/header).
+   Data rows start after the first 2 rows (a summary/count row,
+   then the column header row).
 
    Sr. No. shown on the page is always recomputed sequentially
    from the fetched rows (1, 2, 3, ...) rather than trusted from
@@ -27,12 +28,12 @@ async function loadBhog() {
   try {
     const rows = await fetchRawRows(SITE_CONFIG.googleSheetId, SITE_CONFIG.bhogSheetName);
     const items = rows
-      .slice(4) // skip title + summary rows + header row
+      .slice(2) // skip the summary/count row + the column header row
       .map((r) => ({
         name: cell(r, 3),
         item: cell(r, 5),
       }))
-      .filter((i) => i.item);
+      .filter((i) => i.item && i.item.trim().toLowerCase() !== "56 bhog item name");
 
     if (items.length === 0) {
       renderEmpty(root, "No dishes registered yet for the 56 Bhog — check back soon!");
