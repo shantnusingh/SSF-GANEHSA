@@ -33,4 +33,10 @@ const SITE_CONFIG = {
 
   // Name of the tab that holds committee task allocation.
   teamSheetName: "Work Allocation",
+
+  // Name of the tab that holds resident contributions. Only Flat No,
+  // Resident Name and Contribution amount are shown publicly — all
+  // other columns (contact, payment mode/date, refs, status, remarks)
+  // are never read into the DOM.
+  contributionsSheetName: "Contributions",
 };
