@@ -1,7 +1,7 @@
 /* =========================================================
    SSF Ganesha Mahotsav 2026 — 56 Bhog List
-   Reads the "56-Bhog" tab and shows ONLY the dish item,
-   category and quantity. Flat numbers, resident names and
+   Reads the "56-Bhog" tab and shows Sr. No., Resident/Family
+   Name and the 56 Bhog Item Name as a table. Flat numbers and
    mobile numbers are intentionally never read into the DOM.
 
    Raw column layout in the sheet (by position, not header text
@@ -10,6 +10,10 @@
      D: Resident Name  E: Mobile Number  F: 56 Bhog Item Name
      G: Category        H: Quantity       I: Remarks
    Data rows start after the first 4 rows (title/summary/header).
+
+   Sr. No. shown on the page is always recomputed sequentially
+   from the fetched rows (1, 2, 3, ...) rather than trusted from
+   column B, so numbering is always gapless and in sheet order.
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", loadBhog);
@@ -25,9 +29,8 @@ async function loadBhog() {
     const items = rows
       .slice(4) // skip title + summary rows + header row
       .map((r) => ({
+        name: cell(r, 3),
         item: cell(r, 5),
-        category: cell(r, 6),
-        quantity: cell(r, 7),
       }))
       .filter((i) => i.item);
 
@@ -44,22 +47,30 @@ async function loadBhog() {
 }
 
 function renderBhog(root, items) {
-  root.innerHTML = "";
-  const grid = document.createElement("div");
-  grid.className = "info-grid";
+  const rowsHtml = items
+    .map(
+      (i, idx) => `
+    <tr>
+      <td>${idx + 1}</td>
+      <td>${escapeHtml(i.name || "Available")}</td>
+      <td>${escapeHtml(i.item)}</td>
+    </tr>`
+    )
+    .join("");
 
-  items.forEach((i) => {
-    const card = document.createElement("div");
-    card.className = "info-card";
-    card.innerHTML = `
-      <div class="info-eyebrow">🍚 56 Bhog</div>
-      <h3>${escapeHtml(i.item)}</h3>
-      ${i.category ? `<p><strong>${escapeHtml(i.category)}</strong></p>` : ""}
-      ${i.quantity ? `<p>Qty: ${escapeHtml(i.quantity)}</p>` : ""}
-    `;
-    grid.appendChild(card);
-  });
-
-  root.appendChild(grid);
+  root.innerHTML = `
+    <div class="contrib-table-wrap">
+      <table class="contrib-table">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Resident / Family Name</th>
+            <th>56 Bhog Item Name</th>
+          </tr>
+        </thead>
+        <tbody>${rowsHtml}</tbody>
+      </table>
+    </div>
+  `;
   appendRefreshNote(root);
 }
