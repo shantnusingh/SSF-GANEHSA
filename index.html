@@ -8,6 +8,44 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css" />
+<style>
+  /* Homepage-only refinements — scoped to this page via its own <style> tag.
+     assets/css/style.css (the shared stylesheet) is intentionally left untouched. */
+  .hero { padding: 34px 20px 42px; }
+  .hero-poster { width: 340px; margin: 0 auto 16px; }
+  .hero .dates { margin: 0 0 14px; font-size: 1rem; }
+  .countdown-wrap { margin-top: 22px; }
+
+  .hero-cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .btn-hero {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 13px 26px;
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease;
+    min-width: 190px;
+    text-align: center;
+  }
+  .btn-hero:hover { transform: translateY(-2px); }
+  .btn-hero-primary { background: var(--gold); color: var(--maroon); }
+  .btn-hero-secondary { background: var(--white); color: var(--red-dark); border: 2px solid var(--gold); }
+
+  .quick-card-featured { border: 2px solid var(--gold); box-shadow: 0 14px 30px rgba(212,175,55,0.28); }
+  .quick-card-featured h3 { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+
+  @media (max-width: 480px) {
+    .btn-hero { min-width: 0; width: 100%; }
+  }
+</style>
 </head>
 <body>
 
@@ -270,8 +308,13 @@ vLQpkHDHbSP1qVKfrSOKWSUnbZQh1GCWK+WaqxDZO+/rUqU6E5S9yy4JGVBA/Ctokt28LIQTtk9KlSlY
 pbJXb86rrTGCvpUqUUgFSivsowQO5rhUgbipUo2Yo0Sk7DeucoDtUqU1sFE5fpUqVK1s1H//2Q==" alt="SSF Ganesha Mahotsav 2026 invitation poster" width="360" height="360" />
     <div class="hero-eyebrow">Ganpati Bappa Morya</div>
     <h1>SSF Ganesha Mahotsav 2026</h1>
-    <p class="tagline">Join our society for a joyous celebration of Lord Ganesha — devotion, community and festivity together.</p>
     <span class="dates">🗓️ 14 – 20 September 2026</span>
+    <p class="tagline">Join our society for a joyous celebration of Lord Ganesha — devotion, community and festivity together.</p>
+
+    <div class="hero-cta-group">
+      <a class="btn-hero btn-hero-primary" href="schedule.html">🗓️ View Schedule</a>
+      <a class="btn-hero btn-hero-secondary" href="contributions.html">💰 Contribute</a>
+    </div>
 
     <div class="countdown-wrap">
       <p id="countdown-label" style="margin-bottom:14px; font-weight:600; color:#FFF3DE;">Counting down to Ganesh Chaturthi</p>
@@ -310,9 +353,9 @@ pbJXb86rrTGCvpUqUUgFSivsowQO5rhUgbipUo2Yo0Sk7DeucoDtUqU1sFE5fpUqVK1s1H//2Q==" al
       <h3>Team &amp; Tasks</h3>
       <p>Who's coordinating what for the celebration.</p>
     </a>
-    <a class="quick-card" href="contributions.html">
+    <a class="quick-card quick-card-featured" href="contributions.html">
       <div class="icon">💰</div>
-      <h3>Contributions</h3>
+      <h3>Contributions <span class="badge">Live</span></h3>
       <p>See resident contributions and the live total collection.</p>
     </a>
     <a class="quick-card" href="#about">
@@ -344,6 +387,8 @@ pbJXb86rrTGCvpUqUUgFSivsowQO5rhUgbipUo2Yo0Sk7DeucoDtUqU1sFE5fpUqVK1s1H//2Q==" al
     Chetna: <a href="tel:+919730717635">97307 17635</a>
     &nbsp;·&nbsp;
     Shantnu: <a href="tel:+919643324147">96433 24147</a>
+    &nbsp;·&nbsp;
+    Gaurav Rawat: <a href="tel:+919910068139">99100 68139</a>
   </p>
 </footer>
 
