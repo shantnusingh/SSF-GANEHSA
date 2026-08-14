@@ -177,6 +177,15 @@ ul { list-style: none; }
   box-shadow: 0 10px 30px rgba(0,0,0,0.25), 0 0 0 6px rgba(255,255,255,0.25);
 }
 
+.hero-poster {
+  width: 260px;
+  max-width: 70vw;
+  border-radius: 18px;
+  margin: 0 auto 20px;
+  display: block;
+  box-shadow: 0 12px 34px rgba(0,0,0,0.35), 0 0 0 4px rgba(255,255,255,0.3);
+}
+
 .hero-eyebrow {
   font-weight: 600;
   letter-spacing: 2px;
