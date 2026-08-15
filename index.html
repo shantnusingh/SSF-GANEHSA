@@ -103,7 +103,6 @@
     width: var(--petal-size, 14px);
     height: var(--petal-size, 14px);
     opacity: 0;
-    border-radius: 50% 0 50% 50%;
     animation-name: petal-fall;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
@@ -111,9 +110,36 @@
     animation-delay: var(--petal-delay, 0s);
     will-change: transform, opacity;
   }
-  .petal--white { background: radial-gradient(circle at 30% 30%, #FFFFFF, #F7F1E3 75%); }
-  .petal--ivory { background: radial-gradient(circle at 30% 30%, #FFFDF6, #F3E6C4 75%); }
-  .petal--pink { background: radial-gradient(circle at 30% 30%, #FFF8FA, #F6D9E3 75%); }
+  /* Tiny 4-petal flower bloom: two overlapping elongated ellipses
+     crossed at 90°, drawn with pseudo-elements — no extra DOM nodes. */
+  .petal::before,
+  .petal::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 22%;
+    width: 56%;
+    height: 100%;
+    background: var(--petal-color);
+    border-radius: 50%;
+  }
+  .petal::before { transform: rotate(45deg); }
+  .petal::after { transform: rotate(-45deg); }
+
+  .petal--white    { --petal-color: rgba(255,255,255,0.85); }
+  .petal--ivory    { --petal-color: rgba(255,250,235,0.82); }
+  .petal--marigold { --petal-color: rgba(255,196,64,0.8); }
+  .petal--pink     { --petal-color: rgba(255,197,212,0.78); }
+
+  /* Leaf: a single small asymmetric blob, not a flower bloom. */
+  .petal--leaf::before,
+  .petal--leaf::after {
+    content: none;
+  }
+  .petal--leaf {
+    border-radius: 20% 80% 20% 80%;
+    background: linear-gradient(135deg, rgba(205,228,187,0.85), rgba(120,166,94,0.8) 75%);
+  }
 
   @keyframes petal-fall {
     0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
@@ -271,21 +297,29 @@
 
     const isSmallScreen = window.innerWidth <= 600;
     const petalCount = isSmallScreen ? 7 : 13;
-    // White/ivory dominant, with pale pink appearing less often.
-    const colors = ["petal--white", "petal--ivory", "petal--white", "petal--pink"];
+    // Approx. 45% white/ivory, 30% marigold, 15% soft green leaf, 10% pale pink.
+    const colors = [
+      "petal--white", "petal--ivory", "petal--marigold", "petal--white",
+      "petal--marigold", "petal--leaf", "petal--ivory", "petal--marigold",
+      "petal--white", "petal--pink", "petal--marigold", "petal--leaf",
+      "petal--ivory", "petal--white", "petal--marigold", "petal--leaf",
+      "petal--white", "petal--ivory", "petal--marigold", "petal--pink"
+    ];
     const fragment = document.createDocumentFragment();
 
     for (let i = 0; i < petalCount; i++) {
       const petal = document.createElement("span");
       petal.className = "petal " + colors[i % colors.length];
 
+      // Mostly small flowers (10–18px), occasionally a slightly larger one (18–24px).
+      const isLarger = Math.random() < 0.2;
       const size = isSmallScreen
-        ? 12 + Math.random() * 9   // 12–21px on small screens
-        : 15 + Math.random() * 15; // 15–30px on larger screens
+        ? (isLarger ? 14 + Math.random() * 4 : 8 + Math.random() * 6)   // 8–14px, occasional 14–18px
+        : (isLarger ? 18 + Math.random() * 6 : 10 + Math.random() * 8); // 10–18px, occasional 18–24px
       const duration = 10 + Math.random() * 8;  // 10–18s
       const delay = -Math.random() * duration;  // negative: already mid-flight on load
       const drift = 25 + Math.random() * 45;    // 25–70px sideways sway
-      const opacity = 0.45 + Math.random() * 0.35; // 0.45–0.8
+      const opacity = 0.4 + Math.random() * 0.3; // 0.4–0.7
 
       petal.style.setProperty("--petal-left", Math.random() * 100 + "%");
       petal.style.setProperty("--petal-size", size.toFixed(1) + "px");
