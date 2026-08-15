@@ -100,9 +100,11 @@
     position: absolute;
     top: -10vh;
     left: var(--petal-left, 50%);
-    width: var(--petal-size, 14px);
+    width: calc(var(--petal-size, 14px) * 0.56);
     height: var(--petal-size, 14px);
     opacity: 0;
+    background: var(--petal-color);
+    border-radius: 50%;
     animation-name: petal-fall;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
@@ -110,36 +112,25 @@
     animation-delay: var(--petal-delay, 0s);
     will-change: transform, opacity;
   }
-  /* Tiny 4-petal flower bloom: two overlapping elongated ellipses
-     crossed at 90°, drawn with pseudo-elements — no extra DOM nodes. */
+  /* Small 6-petal flower bloom: three identical elongated-ellipse
+     "blades" (the element itself, plus two pseudo-elements) crossed
+     at 60° through a shared center — no extra DOM nodes. */
   .petal::before,
   .petal::after {
     content: "";
     position: absolute;
-    top: 0;
-    left: 22%;
-    width: 56%;
-    height: 100%;
+    inset: 0;
     background: var(--petal-color);
     border-radius: 50%;
   }
-  .petal::before { transform: rotate(45deg); }
-  .petal::after { transform: rotate(-45deg); }
+  .petal::before { transform: rotate(60deg); }
+  .petal::after { transform: rotate(-60deg); }
 
-  .petal--white    { --petal-color: rgba(255,255,255,0.85); }
-  .petal--ivory    { --petal-color: rgba(255,250,235,0.82); }
-  .petal--marigold { --petal-color: rgba(255,196,64,0.8); }
-  .petal--pink     { --petal-color: rgba(255,197,212,0.78); }
-
-  /* Leaf: a single small asymmetric blob, not a flower bloom. */
-  .petal--leaf::before,
-  .petal--leaf::after {
-    content: none;
-  }
-  .petal--leaf {
-    border-radius: 20% 80% 20% 80%;
-    background: linear-gradient(135deg, rgba(205,228,187,0.85), rgba(120,166,94,0.8) 75%);
-  }
+  .petal--yellow { --petal-color: rgba(255,193,20,0.95); }
+  .petal--white  { --petal-color: rgba(255,255,255,0.95); }
+  .petal--red    { --petal-color: rgba(214,40,60,0.92); }
+  .petal--blue   { --petal-color: rgba(66,133,221,0.9); }
+  .petal--pink   { --petal-color: rgba(255,105,163,0.88); }
 
   @keyframes petal-fall {
     0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
@@ -296,32 +287,53 @@
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const isSmallScreen = window.innerWidth <= 600;
-    const petalCount = isSmallScreen ? 7 : 13;
-    // Approx. 45% white/ivory, 30% marigold, 15% soft green leaf, 10% pale pink.
+    const petalCount = isSmallScreen ? 16 : 28;
+    // Approx. 25% yellow/gold, 25% white, 20% red, 15% blue, 15% pink.
     const colors = [
-      "petal--white", "petal--ivory", "petal--marigold", "petal--white",
-      "petal--marigold", "petal--leaf", "petal--ivory", "petal--marigold",
-      "petal--white", "petal--pink", "petal--marigold", "petal--leaf",
-      "petal--ivory", "petal--white", "petal--marigold", "petal--leaf",
-      "petal--white", "petal--ivory", "petal--marigold", "petal--pink"
+      "petal--yellow", "petal--white", "petal--red", "petal--yellow",
+      "petal--blue", "petal--white", "petal--pink", "petal--red",
+      "petal--yellow", "petal--white", "petal--blue", "petal--red",
+      "petal--pink", "petal--yellow", "petal--white", "petal--blue",
+      "petal--red", "petal--pink", "petal--yellow", "petal--white"
     ];
     const fragment = document.createDocumentFragment();
+
+    // Bias horizontal position toward the sides/edges so the hero's
+    // center (Ganesha image, title, countdown) stays relatively clear.
+    function randomLeftPercent() {
+      if (Math.random() < 0.7) {
+        return Math.random() < 0.5 ? Math.random() * 30 : 70 + Math.random() * 30;
+      }
+      return 30 + Math.random() * 40;
+    }
 
     for (let i = 0; i < petalCount; i++) {
       const petal = document.createElement("span");
       petal.className = "petal " + colors[i % colors.length];
 
-      // Mostly small flowers (10–18px), occasionally a slightly larger one (18–24px).
-      const isLarger = Math.random() < 0.2;
-      const size = isSmallScreen
-        ? (isLarger ? 14 + Math.random() * 4 : 8 + Math.random() * 6)   // 8–14px, occasional 14–18px
-        : (isLarger ? 18 + Math.random() * 6 : 10 + Math.random() * 8); // 10–18px, occasional 18–24px
+      // Three size/opacity tiers for visual depth: small background
+      // flowers, normal mid-ground flowers, and a few large foreground ones.
+      const tierRoll = Math.random();
+      let size, opacity;
+      if (tierRoll < 0.2) {
+        // background
+        size = isSmallScreen ? 9 + Math.random() * 5 : 12 + Math.random() * 6;   // 12–18px
+        opacity = 0.45 + Math.random() * 0.25; // 0.45–0.7
+      } else if (tierRoll < 0.75) {
+        // mid-ground
+        size = isSmallScreen ? 14 + Math.random() * 7 : 18 + Math.random() * 10; // 18–28px
+        opacity = 0.65 + Math.random() * 0.25; // 0.65–0.9
+      } else {
+        // foreground
+        size = isSmallScreen ? 20 + Math.random() * 6 : 28 + Math.random() * 8;  // 28–36px
+        opacity = 0.85 + Math.random() * 0.15; // 0.85–1.0
+      }
+
       const duration = 10 + Math.random() * 8;  // 10–18s
       const delay = -Math.random() * duration;  // negative: already mid-flight on load
       const drift = 25 + Math.random() * 45;    // 25–70px sideways sway
-      const opacity = 0.4 + Math.random() * 0.3; // 0.4–0.7
 
-      petal.style.setProperty("--petal-left", Math.random() * 100 + "%");
+      petal.style.setProperty("--petal-left", randomLeftPercent().toFixed(1) + "%");
       petal.style.setProperty("--petal-size", size.toFixed(1) + "px");
       petal.style.setProperty("--petal-duration", duration.toFixed(2) + "s");
       petal.style.setProperty("--petal-delay", delay.toFixed(2) + "s");
