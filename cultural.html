@@ -8,9 +8,21 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css" />
+<style>
+  /* Page-only refinement — scoped to this page via its own <style> tag.
+     assets/css/style.css (the shared stylesheet) is intentionally left untouched. */
+  .guidelines-list { list-style: disc; margin: 10px 0 0; padding-left: 22px; font-size: 0.9rem; color: #6b5340; line-height: 1.6; }
+  .guidelines-list li { margin-bottom: 10px; }
+  .guidelines-list li:last-child { margin-bottom: 0; }
+</style>
 </head>
 <body>
 
+<!-- =================================================
+     CULTURAL EVENT INFORMATION — EDIT THIS SECTION
+     Update event name, dates, time, venue, eligibility,
+     registration status, deadline and last updated date.
+     ================================================= -->
 <script>
   // ============================================================
   // Cultural Events registration form — SINGLE SOURCE OF TRUTH.
@@ -18,7 +30,23 @@
   // The registration button below reads its href from this constant.
   // ============================================================
   const CULTURAL_REGISTRATION_FORM = "https://forms.gle/REPLACE_WITH_CULTURAL_REGISTRATION_FORM";
+
+  // ============================================================
+  // Cultural event details — edit these values only.
+  // The event card below renders directly from this object.
+  // ============================================================
+  const CULTURAL_EVENT = {
+    name: "To Be Announced",
+    date: "To Be Announced",
+    time: "To Be Announced",
+    venue: "To Be Announced",
+    eligibility: "SSF Residents & Families",
+    registrationStatus: "Registration Open",
+    registrationDeadline: "To Be Announced",
+    lastUpdated: "To Be Announced"
+  };
 </script>
+<!-- ================= END EDITABLE SECTION ================= -->
 
 <header class="site-header">
   <nav class="nav">
@@ -48,29 +76,20 @@
 </section>
 
 <section class="section" style="padding-top:0;">
-  <div class="container" style="padding:0; max-width:680px; margin:0 auto;">
-    <div class="info-card" style="text-align:center;">
-      <div class="info-eyebrow">📢 Important Information</div>
-      <p>Residents are requested to register for cultural events through the official registration form. Please provide accurate details while registering. Participation is subject to the event guidelines and available slots.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0;">
-  <h2 class="section-title">🎭 Cultural Events</h2>
-  <p class="section-subtitle">Event details will be added here as they are finalized.</p>
-
-  <div class="info-grid container" style="padding:0;">
+  <div class="info-grid container" style="padding:0; max-width:520px; margin:0 auto;">
     <div class="info-card">
-      <div class="info-eyebrow">🎭 Event</div>
-      <h3>To Be Announced</h3>
-      <p><strong>Date:</strong> To Be Announced</p>
-      <p><strong>Time:</strong> To Be Announced</p>
-      <p><strong>Venue:</strong> To Be Announced</p>
-      <p><strong>Eligibility / Participation:</strong> To Be Announced</p>
+      <div class="info-eyebrow">🎭 Cultural Event</div>
+      <h3 id="ce-name">To Be Announced</h3>
+      <p><strong>📅 Event Date:</strong> <span id="ce-date">To Be Announced</span></p>
+      <p><strong>🕐 Time:</strong> <span id="ce-time">To Be Announced</span></p>
+      <p><strong>📍 Venue:</strong> <span id="ce-venue">To Be Announced</span></p>
+      <p><strong>👨‍👩‍👧 Eligibility:</strong> <span id="ce-eligibility">SSF Residents &amp; Families</span></p>
+      <p><strong>⏰ Registration Deadline:</strong> <span id="ce-deadline">To Be Announced</span></p>
       <div class="info-meta">
-        <span class="status-pill status-in-progress">Registration Open</span>
+        <strong style="font-size:0.85rem;">📝 Registration:</strong>
+        <span class="status-pill status-in-progress" id="ce-status-pill">Registration Open</span>
       </div>
+      <p class="refresh-note" style="margin-top:12px;">Last Updated: <span id="ce-updated">To Be Announced</span></p>
     </div>
   </div>
 </section>
@@ -84,11 +103,37 @@
   </div>
 </section>
 
+<section class="section" style="padding-top:0;">
+  <div class="container" style="padding:0; max-width:680px; margin:0 auto;">
+    <div class="info-card">
+      <div class="info-eyebrow" style="text-align:center;">📌 Important Guidelines</div>
+      <ul class="guidelines-list">
+        <li>Registration is required for participation in the cultural events.</li>
+        <li>Participants should complete registration before the announced registration deadline.</li>
+        <li>Participants should report to the venue at least 15 minutes before the scheduled event time.</li>
+        <li>Participants are requested to follow the event timings and instructions provided by the organizing committee.</li>
+        <li>Participation is subject to available slots, event requirements and organizer confirmation where applicable.</li>
+        <li>Parents/guardians are responsible for children participating in the events.</li>
+        <li>Participants should maintain discipline and respect the venue and other participants.</li>
+        <li>Any changes to event timing, venue or registration status will be communicated through the SSF Ganesha Mahotsav portal and official communication channels.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="contact" style="padding-top:0;">
   <div class="container" style="padding:0; max-width:680px; margin:0 auto; text-align:center;">
-    <h2 class="section-title" style="margin-bottom:6px;">📌 Notes</h2>
-    <p class="section-subtitle" style="margin-bottom:10px;">For any queries regarding cultural events, registration, or participation, please reach out to:</p>
+    <h2 class="section-title" style="margin-bottom:6px; font-size:1.15rem;">🙋 Want to Volunteer?</h2>
+    <p class="section-subtitle" style="margin-bottom:10px; font-size:0.9rem;">Interested in helping with cultural events, coordination, stage management, decorations or other activities? We welcome residents who would like to volunteer and contribute to the celebrations.</p>
     <p style="font-size:0.95rem; font-weight:600;">📞 Joswin Jos &ndash; <a href="tel:+919880328653" style="color:var(--red-dark); text-decoration:underline;">98803 28653</a></p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container" style="padding:0; max-width:680px; margin:0 auto; text-align:center;">
+    <h2 class="section-title" style="margin-bottom:6px; font-size:1.05rem;">📢 General Information</h2>
+    <p class="section-subtitle" style="font-size:0.88rem;">Event details, timings, venue and registration status may be updated as the programme is finalized. Please check this page for the latest information.</p>
+    <p class="section-subtitle" style="font-size:0.88rem; margin-top:6px;">For important announcements and updates, residents are encouraged to join the official <a href="https://chat.whatsapp.com/IKrO2s6ZTA3JF9DundnXoM?s=cl&amp;p=i&amp;mlu=4&amp;amv=1" target="_blank" rel="noopener noreferrer" style="color:var(--red-dark); font-weight:700; text-decoration:underline;">SSF Ganesha WhatsApp group</a>.</p>
   </div>
 </section>
 
@@ -110,6 +155,22 @@
   document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("cultural-register-btn");
     if (btn) btn.href = CULTURAL_REGISTRATION_FORM;
+
+    document.getElementById("ce-name").textContent = CULTURAL_EVENT.name;
+    document.getElementById("ce-date").textContent = CULTURAL_EVENT.date;
+    document.getElementById("ce-time").textContent = CULTURAL_EVENT.time;
+    document.getElementById("ce-venue").textContent = CULTURAL_EVENT.venue;
+    document.getElementById("ce-eligibility").textContent = CULTURAL_EVENT.eligibility;
+    document.getElementById("ce-deadline").textContent = CULTURAL_EVENT.registrationDeadline;
+    document.getElementById("ce-updated").textContent = CULTURAL_EVENT.lastUpdated;
+
+    const statusPill = document.getElementById("ce-status-pill");
+    if (statusPill) {
+      statusPill.textContent = CULTURAL_EVENT.registrationStatus;
+      const closed = CULTURAL_EVENT.registrationStatus.toLowerCase().includes("closed");
+      statusPill.classList.toggle("status-in-progress", !closed);
+      statusPill.classList.toggle("status-not-started", closed);
+    }
   });
 </script>
 </body>
