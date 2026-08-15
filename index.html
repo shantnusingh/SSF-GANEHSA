@@ -84,9 +84,53 @@
     transition: transform 0.2s ease;
   }
   .btn-whatsapp:hover { transform: translateY(-2px); }
+
+  /* ---------- Falling petals (homepage-only, decorative) ---------- */
+  #flower-fall-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 40;
+  }
+  .petal {
+    position: absolute;
+    top: -10vh;
+    left: var(--petal-left, 50%);
+    width: var(--petal-size, 14px);
+    height: var(--petal-size, 14px);
+    opacity: 0;
+    border-radius: 50% 0 50% 50%;
+    animation-name: petal-fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--petal-duration, 12s);
+    animation-delay: var(--petal-delay, 0s);
+    will-change: transform, opacity;
+  }
+  .petal--gold { background: radial-gradient(circle at 30% 30%, #FCEAB2, #D4AF37 75%); }
+  .petal--pink { background: radial-gradient(circle at 30% 30%, #FDEFF3, #E8A6BE 75%); }
+  .petal--orange { background: radial-gradient(circle at 30% 30%, #FFDDB8, #E86A33 75%); }
+
+  @keyframes petal-fall {
+    0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+    8% { opacity: var(--petal-opacity, 0.75); }
+    50% { transform: translate3d(var(--petal-drift, 40px), 60vh, 0) rotate(180deg); }
+    92% { opacity: var(--petal-opacity, 0.75); }
+    100% { transform: translate3d(calc(var(--petal-drift, 40px) * -1), 125vh, 0) rotate(360deg); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #flower-fall-overlay { display: none; }
+  }
 </style>
 </head>
 <body>
+
+<div id="flower-fall-overlay" aria-hidden="true"></div>
 
 <header class="site-header">
   <nav class="nav">
@@ -213,5 +257,47 @@
 
 <script src="assets/js/config.js"></script>
 <script src="assets/js/main.js"></script>
+<script>
+  // ============================================================
+  // Decorative falling-petal effect — homepage only.
+  // Creates a fixed, non-interactive number of petal elements once,
+  // then lets pure CSS animation loop them forever (no timers, no
+  // ongoing JS work, nothing to leak or clean up).
+  // ============================================================
+  (function () {
+    const overlay = document.getElementById("flower-fall-overlay");
+    if (!overlay) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const isSmallScreen = window.innerWidth <= 600;
+    const petalCount = isSmallScreen ? 7 : 13;
+    const colors = ["petal--gold", "petal--pink", "petal--orange"];
+    const fragment = document.createDocumentFragment();
+
+    for (let i = 0; i < petalCount; i++) {
+      const petal = document.createElement("span");
+      petal.className = "petal " + colors[i % colors.length];
+
+      const size = isSmallScreen
+        ? 8 + Math.random() * 6   // 8–14px on small screens
+        : 10 + Math.random() * 10; // 10–20px on larger screens
+      const duration = 10 + Math.random() * 8;  // 10–18s
+      const delay = -Math.random() * duration;  // negative: already mid-flight on load
+      const drift = 25 + Math.random() * 45;    // 25–70px sideways sway
+      const opacity = 0.45 + Math.random() * 0.35; // 0.45–0.8
+
+      petal.style.setProperty("--petal-left", Math.random() * 100 + "%");
+      petal.style.setProperty("--petal-size", size.toFixed(1) + "px");
+      petal.style.setProperty("--petal-duration", duration.toFixed(2) + "s");
+      petal.style.setProperty("--petal-delay", delay.toFixed(2) + "s");
+      petal.style.setProperty("--petal-drift", drift.toFixed(0) + "px");
+      petal.style.setProperty("--petal-opacity", opacity.toFixed(2));
+
+      fragment.appendChild(petal);
+    }
+
+    overlay.appendChild(fragment);
+  })();
+</script>
 </body>
 </html>
