@@ -11,9 +11,35 @@
 <style>
   /* Homepage-only refinements — scoped to this page via its own <style> tag.
      assets/css/style.css (the shared stylesheet) is intentionally left untouched. */
-  .hero { padding: 14px 20px 30px; }
-  .hero-poster { width: 320px; height: auto; margin: 0 auto 6px; }
+  .hero { padding: 14px 20px 30px; position: relative; }
+  /* The hero video is portrait (9:16), much taller per unit of width than
+     the old landscape-ish poster image. Sizing by width alone (as the
+     image did) made the video ~570px tall on phones — pushing the title,
+     countdown and CTAs far below the fold. Sizing by viewport height
+     instead keeps the video prominent while keeping the "what / when /
+     what can I do" hero scannable within one mobile screen. */
+  .hero-poster { width: auto; height: clamp(300px, 50vh, 440px); max-width: 82vw; margin: 0 auto 6px; }
+  /* Kept shorter than .hero's own 30px bottom padding so this never
+     geometrically overlaps the CTA buttons — it only blends the hero's
+     empty bottom padding strip into the page background. */
+  .hero::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 26px;
+    background: linear-gradient(to bottom, rgba(255,248,231,0) 0%, var(--cream) 100%);
+    pointer-events: none;
+  }
   .hero-video-wrap { position: relative; display: inline-block; }
+  .hero-video-wrap::before {
+    content: "";
+    position: absolute;
+    inset: -18px;
+    border-radius: 26px;
+    background: radial-gradient(ellipse at center, rgba(255,214,120,0.5) 0%, rgba(255,214,120,0.16) 45%, transparent 72%);
+    filter: blur(10px);
+    pointer-events: none;
+  }
   .hero-video-unmute {
     position: absolute;
     right: 10px;
@@ -37,7 +63,7 @@
   .hero h1 { font-size: clamp(1.6rem, 4.2vw, 2.3rem); line-height: 1.15; margin-bottom: 4px; }
   .hero .dates { margin: 0 0 6px; font-size: 1rem; line-height: 1.2; }
   .hero p.tagline { margin-bottom: 0; line-height: 1.35; }
-  .countdown-wrap { margin-top: 4px; }
+  .countdown-wrap { margin-top: 16px; }
   .countdown .unit { padding: 10px 10px; }
   .countdown .unit .num { line-height: 1.1; }
   .countdown .unit .label { line-height: 1.3; }
@@ -295,11 +321,9 @@
     Shantnu: <a href="tel:+919643324147">96433 24147</a>
     &nbsp;·&nbsp;
     Gaurav Rawat: <a href="tel:+919910068139">99100 68139</a>
-  </p>
-  <p class="contact-list" style="margin-top:4px;">
+    &nbsp;·&nbsp;
     Bibhu: <a href="tel:+918411012380">84110 12380</a>
-  </p>
-  <p class="contact-list" style="margin-top:4px;">
+    &nbsp;·&nbsp;
     Sandeep: <a href="tel:+917676420387">76764 20387</a>
   </p>
 </footer>
