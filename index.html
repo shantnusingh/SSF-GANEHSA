@@ -318,6 +318,16 @@
     if (!video || !btn) return;
     btn.addEventListener("click", function () {
       video.muted = !video.muted;
+      if (!video.muted) {
+        // Some mobile browsers (notably iOS Safari) don't re-engage the
+        // audio track on an already-playing autoplay video just from
+        // flipping .muted — re-calling play() inside this same tap
+        // nudges them to attach audio. No-op where not needed.
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(function () {});
+        }
+      }
       btn.textContent = video.muted ? "🔇" : "🔊";
       btn.setAttribute("aria-pressed", String(!video.muted));
       btn.setAttribute("aria-label", video.muted ? "Unmute video" : "Mute video");
