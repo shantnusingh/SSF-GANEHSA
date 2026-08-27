@@ -233,22 +233,22 @@ function renderCategoryBreakdown(categories) {
   `;
 }
 
+// Displayed columns are a deliberately narrower subset of the full sheet
+// (Date, Quantity, Price per Item and Remarks are dropped from the view) —
+// this only affects what's rendered here; the full `expenses` data (all
+// fields) still feeds the summary/individual/category calculations above.
 function renderDetailedTable(expenses) {
   const rowsHtml = expenses
     .map(
       (e, idx) => `
     <tr>
       <td>${idx + 1}</td>
-      <td>${escapeHtml(e.date || "—")}</td>
-      <td>${escapeHtml(e.item || "—")}</td>
+      <td class="puja-item-col">${escapeHtml(e.item || "—")}</td>
       <td>${escapeHtml(e.category || "—")}</td>
-      <td>${escapeHtml(e.quantity || "—")}</td>
-      <td style="text-align:right;">${e.pricePerItem > 0 ? formatCurrency(e.pricePerItem) : "—"}</td>
       <td style="text-align:right;">${e.total > 0 ? formatCurrency(e.total) : "—"}</td>
       <td>${escapeHtml(e.paidBy || "—")}</td>
       <td style="text-align:right;">${e.advancePaid > 0 ? formatCurrency(e.advancePaid) : "—"}</td>
       <td style="text-align:right;">${e.balanceDue > 0 ? formatCurrency(e.balanceDue) : "—"}</td>
-      <td>${escapeHtml(e.remarks || "—")}</td>
     </tr>`
     )
     .join("");
@@ -256,20 +256,16 @@ function renderDetailedTable(expenses) {
   return `
     <h2 class="puja-dash-heading">🧾 Detailed Expense Table</h2>
     <div class="contrib-table-wrap puja-section-gap">
-      <table class="contrib-table">
+      <table class="contrib-table puja-detail-table">
         <thead>
           <tr>
             <th>Sr. No.</th>
-            <th>Date</th>
-            <th>Item / Description</th>
+            <th class="puja-item-col">Item / Description</th>
             <th>Category</th>
-            <th>Quantity</th>
-            <th style="text-align:right;">Price per Item</th>
-            <th style="text-align:right;">Total</th>
+            <th style="text-align:right;">Total (₹)</th>
             <th>Paid By</th>
             <th style="text-align:right;">Advance Paid</th>
             <th style="text-align:right;">Balance Due</th>
-            <th>Remarks</th>
           </tr>
         </thead>
         <tbody>${rowsHtml}</tbody>

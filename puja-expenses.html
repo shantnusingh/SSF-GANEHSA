@@ -24,6 +24,18 @@
   .puja-stat-balance { color: var(--red); }
   .puja-dash-heading { font-family: var(--font-heading); color: var(--red-dark); font-size: 1.2rem; margin: 0 0 12px; }
   .puja-section-gap { margin-bottom: 30px; }
+
+  /* Detailed Expense Table: only 7 columns are shown (Date, Quantity,
+     Price per Item and Remarks stay in the sheet but are not displayed
+     here), and the Item / Description column wraps instead of forcing
+     extra table width, so the table stays as narrow as its content
+     allows on both desktop and mobile. */
+  .puja-detail-table .puja-item-col {
+    white-space: normal;
+    word-break: break-word;
+    min-width: 150px;
+    max-width: 260px;
+  }
 </style>
 </head>
 <body>
