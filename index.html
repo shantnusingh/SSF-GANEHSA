@@ -190,9 +190,48 @@
   @media (prefers-reduced-motion: reduce) {
     #flower-fall-overlay { display: none; }
   }
+
+  /* ---------- Background music toggle (homepage-only) ----------
+     Fixed to the viewport's bottom-left so it never sits in the same
+     corner as the hero video's own unmute button (bottom-right of the
+     video itself, not the viewport) and stays clear of the hero CTAs. */
+  .bg-music-toggle {
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 16px;
+    background: var(--maroon);
+    color: var(--gold-light);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .bg-music-toggle:hover { transform: translateY(-2px); }
+  .bg-music-toggle[aria-pressed="true"] { background: var(--gold); color: var(--maroon); }
+  .bg-music-toggle .bg-music-icon { font-size: 1rem; line-height: 1; }
+  @media (max-width: 480px) {
+    .bg-music-toggle { left: 12px; bottom: 12px; padding: 9px 14px; font-size: 0.8rem; }
+  }
 </style>
 </head>
 <body>
+
+<audio id="bg-music" loop preload="none">
+  <source src="assets/audio/ganesha-music.mp3" type="audio/mpeg">
+</audio>
+<button type="button" id="bg-music-toggle" class="bg-music-toggle" aria-pressed="false" aria-label="Play background music">
+  <span class="bg-music-icon" aria-hidden="true">🎵</span>
+  <span class="bg-music-label">Music</span>
+</button>
 
 <header class="site-header">
   <nav class="nav">
@@ -360,6 +399,60 @@
       btn.textContent = video.muted ? "🔇" : "🔊";
       btn.setAttribute("aria-pressed", String(!video.muted));
       btn.setAttribute("aria-label", video.muted ? "Unmute video" : "Mute video");
+    });
+  })();
+</script>
+<script>
+  // ============================================================
+  // Soft background music — homepage only. Independent of the hero
+  // video's own audio track/mute button above.
+  // Browsers routinely block audible autoplay until the visitor has
+  // interacted with the page, so on load this only ever *attempts*
+  // playback and silently accepts rejection — the floating control
+  // is the fallback that starts it (and toggles it) on tap, which
+  // always works because it runs inside a real click event.
+  // ============================================================
+  (function () {
+    const audio = document.getElementById("bg-music");
+    const btn = document.getElementById("bg-music-toggle");
+    if (!audio || !btn) return;
+
+    const icon = btn.querySelector(".bg-music-icon");
+    const label = btn.querySelector(".bg-music-label");
+    audio.volume = 0.2; // gentle, devotional background level
+
+    function setPlayingUI(isPlaying) {
+      btn.setAttribute("aria-pressed", String(isPlaying));
+      btn.setAttribute("aria-label", isPlaying ? "Mute background music" : "Play background music");
+      if (icon) icon.textContent = isPlaying ? "🔊" : "🎵";
+      if (label) label.textContent = isPlaying ? "Playing" : "Music";
+    }
+
+    // `optimistic`: on a real user tap, .paused flips to false the instant
+    // play() is called (before the promise settles), so the button can
+    // reflect that immediately instead of waiting on network buffering —
+    // it only reverts if the promise actually rejects. The unattended
+    // page-load attempt skips that (nothing to feel "instant" about, and
+    // it's usually the one that gets silently blocked).
+    function tryPlay(optimistic) {
+      if (optimistic) setPlayingUI(true);
+      const playPromise = audio.play();
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise.then(function () { setPlayingUI(true); }).catch(function () { setPlayingUI(false); });
+      } else if (!optimistic) {
+        setPlayingUI(true);
+      }
+    }
+
+    tryPlay(false); // silent best-effort autoplay attempt
+
+    btn.addEventListener("click", function () {
+      if (audio.paused) {
+        tryPlay(true);
+      } else {
+        audio.pause();
+        setPlayingUI(false);
+      }
     });
   })();
 </script>
