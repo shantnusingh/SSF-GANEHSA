@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Puja Expenses | SSF Ganesha Mahotsav 2026</title>
+<meta name="description" content="Puja expense ledger for SSF Ganesha Mahotsav 2026, updated live from Google Sheets." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" />
+<style>
+  /* Page-only refinement — scoped to this page via its own <style> tag.
+     assets/css/style.css (the shared stylesheet) is intentionally left untouched. */
+  .hero-contact { margin-top: 10px; }
+  .hero-contact p { font-size: 0.92rem; color: #FFF3DE; margin: 2px 0; }
+  .hero-contact a { color: var(--gold-light); font-weight: 700; text-decoration: underline; }
+
+  /* Expense dashboard: reuses .info-grid/.info-card/.total-banner/.contrib-table
+     from style.css, with a few small additions scoped to this page only. */
+  .puja-stat-grid { margin-bottom: 26px; }
+  .puja-stat-card { text-align: center; }
+  .puja-stat-value { font-family: var(--font-heading); font-weight: 700; font-size: 1.5rem; color: var(--maroon); margin: 4px 0 6px; }
+  .puja-stat-advance { color: var(--saffron-dark); }
+  .puja-stat-balance { color: var(--red); }
+  .puja-dash-heading { font-family: var(--font-heading); color: var(--red-dark); font-size: 1.2rem; margin: 0 0 12px; }
+  .puja-section-gap { margin-bottom: 30px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html">
+      <span class="brand-emblem">🐘</span>
+      <span class="brand-text">SSF Ganesha Mahotsav<small>2026</small></span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="schedule.html">📅 Schedule</a></li>
+      <li><a href="sponsorship.html">🎗️ Sponsors</a></li>
+      <li><a href="bhog.html">🍚 56 Bhog</a></li>
+      <li><a href="team.html">✅ Team</a></li>
+      <li><a href="cultural.html">🎭 Cultural Events &amp; Games</a></li>
+      <li><a href="contributions.html">💰 Contributions</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero" style="padding:40px 20px 48px;">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Transparency &amp; Trust</div>
+    <h1 style="font-size:clamp(1.6rem,4.5vw,2.4rem);">Puja Expenses</h1>
+    <p class="tagline">Track how funds are being spent for SSF Ganesha Mahotsav 2026 — every entry updated live by the committee.</p>
+    <p class="tagline">Refresh the page anytime to see the latest entries.</p>
+    <span class="badge">🔄 Live from Google Sheets</span>
+  </div>
+</section>
+
+<section class="section">
+  <div id="puja-expenses-root" class="container" style="padding:0;">
+    <!-- Populated by assets/js/puja-expenses.js -->
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="om">ॐ गं गणपतये नमः</div>
+  <p>SSF Ganesha Mahotsav Committee — 2026</p>
+  <p class="contact-list">
+    Chetna: <a href="tel:+919730717635">97307 17635</a>
+    &nbsp;·&nbsp;
+    Shantnu: <a href="tel:+919643324147">96433 24147</a>
+    &nbsp;·&nbsp;
+    Gaurav Rawat: <a href="tel:+919910068139">99100 68139</a>
+  </p>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/puja-expenses.js"></script>
+</body>
+</html>

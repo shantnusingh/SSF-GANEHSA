@@ -39,4 +39,13 @@ const SITE_CONFIG = {
   // other columns (contact, payment mode/date, refs, status, remarks)
   // are never read into the DOM.
   contributionsSheetName: "Contributions",
+
+  // Name of the tab that holds the Puja expense ledger: Date | Item /
+  // Description | Category | Quantity | Price per Item (₹) | Total (₹) |
+  // Paid By | Payment Mode | Remarks. This tab is an open ledger — all
+  // its columns are shown publicly on puja-expenses.html. Columns are
+  // read by position (see assets/js/puja-expenses.js), not by header
+  // name, because the live sheet's header row is missing labels for
+  // two of its columns — see that file's top comment for details.
+  pujaExpenseSheetName: "Puja Expense Tracker",
 };
