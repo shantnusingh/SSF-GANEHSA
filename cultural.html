@@ -44,9 +44,9 @@
     time: "Refer to live updates in the SSF Ganesha WhatsApp group",
     venue: "SSF Clubhouse, Open Area",
     eligibility: "SSF Residents & Families",
-    registrationStatus: "Registration Open",
+    registrationStatus: "Registration Closed",
     registrationDeadline: "4th September 2026",
-    lastUpdated: "27 August 2026"
+    lastUpdated: "11 September 2026"
   };
 </script>
 <!-- ================= END EDITABLE SECTION ================= -->
@@ -74,7 +74,7 @@
     <div class="hero-eyebrow">Showcase Your Talent</div>
     <h1 style="font-size:clamp(1.6rem,4.5vw,2.4rem);">🎭 Cultural Events &amp; Registration</h1>
     <p class="tagline">Celebrate, participate and showcase your talent as part of SSF Ganesha Mahotsav 2026.</p>
-    <span class="badge">📝 Registration Open</span>
+    <span class="badge" id="ce-hero-badge">📝 Registration Open</span>
   </div>
 </section>
 
@@ -99,10 +99,10 @@
 
 <section class="section" style="padding-top:0;">
   <div class="container" style="padding:0; max-width:680px; margin:0 auto; text-align:center;">
-    <h2 class="section-title" style="margin-bottom:6px;">📝 Register for an Event</h2>
-    <p class="section-subtitle" style="margin-bottom:20px;">Register for the cultural events and be part of the SSF Ganesha Mahotsav 2026 celebrations.</p>
+    <h2 class="section-title" id="cultural-register-title" style="margin-bottom:6px;">📝 Register for an Event</h2>
+    <p class="section-subtitle" id="cultural-register-subtitle" style="margin-bottom:20px;">Register for the cultural events and be part of the SSF Ganesha Mahotsav 2026 celebrations.</p>
     <a id="cultural-register-btn" class="btn" href="#" target="_blank" rel="noopener noreferrer">📝 Register for an Event</a>
-    <p style="font-size:0.85rem; color:#6b5340; margin-top:18px;">Your registration will be recorded through the official Google Form. Please ensure that the information provided is accurate.</p>
+    <p id="cultural-register-note" style="font-size:0.85rem; color:#6b5340; margin-top:18px;">Your registration will be recorded through the official Google Form. Please ensure that the information provided is accurate.</p>
   </div>
 </section>
 
@@ -169,12 +169,29 @@
     document.getElementById("ce-deadline").textContent = CULTURAL_EVENT.registrationDeadline;
     document.getElementById("ce-updated").textContent = CULTURAL_EVENT.lastUpdated;
 
+    const closed = CULTURAL_EVENT.registrationStatus.toLowerCase().includes("closed");
+
     const statusPill = document.getElementById("ce-status-pill");
     if (statusPill) {
       statusPill.textContent = CULTURAL_EVENT.registrationStatus;
-      const closed = CULTURAL_EVENT.registrationStatus.toLowerCase().includes("closed");
       statusPill.classList.toggle("status-in-progress", !closed);
       statusPill.classList.toggle("status-not-started", closed);
+    }
+
+    const heroBadge = document.getElementById("ce-hero-badge");
+    if (heroBadge) heroBadge.textContent = "📝 " + CULTURAL_EVENT.registrationStatus;
+
+    // Registration CTA: swap in a closed-state message and hide the
+    // Google Form button/note once registrationStatus reads "closed".
+    const registerTitle = document.getElementById("cultural-register-title");
+    const registerSubtitle = document.getElementById("cultural-register-subtitle");
+    const registerBtn = document.getElementById("cultural-register-btn");
+    const registerNote = document.getElementById("cultural-register-note");
+    if (closed) {
+      if (registerTitle) registerTitle.textContent = "📝 Registration Closed";
+      if (registerSubtitle) registerSubtitle.textContent = "Registration for the cultural events is now closed. Thank you to everyone who registered!";
+      if (registerBtn) registerBtn.style.display = "none";
+      if (registerNote) registerNote.style.display = "none";
     }
   });
 </script>
